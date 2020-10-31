@@ -7,7 +7,7 @@ public class TinyTreap {
 	// To add new seg-tree supported properties, edit recalc()
 	// To add lazyprop values, edit recalc() and prop()
 
-	// If you only add by merging, skip add() and rebalance()
+	// If you only add by merging, skip add() and recalc()
 	// If you don't need lazyprop, skip prop() and rangeAdd()
 	static class Treap {
 		int data, priority;
