@@ -11,7 +11,7 @@ mt19937 rnd;
 
 struct Treap {
 	int data, priority;
-	vector<Treap*> kids;
+	array<Treap*, 2> kids;
 	int subtreeSize, sum, toProp;
 
 	Treap(int data);
@@ -54,18 +54,18 @@ Treap* merge(Treap *l, Treap *r) {
 	}
 }
 
-vector<Treap*> split(Treap *me, int nInLeft) {
+array<Treap*, 2> split(Treap *me, int nInLeft) {
 	if (me == NULL) return {NULL, NULL};
 	prop(me);
 	if (size(me->kids[0])>=nInLeft) {
-		vector<Treap*> leftRes=split(me->kids[0], nInLeft);
+		array<Treap*, 2> leftRes=split(me->kids[0], nInLeft);
 		me->kids[0]=leftRes[1];
 		recalc(me);
 		return {leftRes[0], me};
 	}
 	else {
 		nInLeft = nInLeft - size(me->kids[0]) - 1;
-		vector<Treap*> rightRes = split(me->kids[1], nInLeft);
+		array<Treap*, 2> rightRes = split(me->kids[1], nInLeft);
 		me->kids[1] = rightRes[0];
 		recalc(me);
 		return {me, rightRes[1]};
@@ -75,15 +75,15 @@ vector<Treap*> split(Treap *me, int nInLeft) {
 
 Treap::Treap(int data) {
 	kids={NULL, NULL};
+	this->data = data;
 	recalc(this);
-	
 	MakeSureYouSetYourPriorityToARandomIntegerHere!
 }
 
 Treap* rangeAdd(Treap* t, int l, int r, int toAdd) {
-	vector<Treap*> a=split(t, l), b=split(a[1], r-l+1);
+	array<Treap*, 2> a=split(t, l), b=split(a[1], r-l+1);
 	b[0]->toProp+=toAdd;
-	return merge(a[0], merge(b[0], b[1]);
+	return merge(a[0], merge(b[0], b[1]));
 }
 
 
